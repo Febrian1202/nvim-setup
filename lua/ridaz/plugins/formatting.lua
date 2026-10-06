@@ -29,7 +29,7 @@ return {
                 format_on_save = {
                     lsp_fallback = true, -- Jika formatter khusus tidak ketemu, coba gunakan format dari LSP
                     async = false,
-                    timeout_ms = 1000,
+                    timeout_ms = 3000, -- Diperbesar menjadi 3 detik karena blade-formatter berbasis Node.js yang kadang lambat bangun
                 },
             })
 
@@ -38,7 +38,7 @@ return {
                 conform.format({
                     lsp_fallback = true,
                     async = false,
-                    timeout_ms = 1000,
+                    timeout_ms = 3000,
                 })
             end, { desc = "Format file atau blok yang diblok" })
         end,

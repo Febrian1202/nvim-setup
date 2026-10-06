@@ -1,7 +1,7 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		lazy = false,
+		event = { "BufReadPre", "BufNewFile" }, -- Aktif saat baca/buat file agar tidak telat
 		build = ":TSUpdate",
 		config = function()
 			-- Add a small delay to ensure treesitter is loaded or use pcall

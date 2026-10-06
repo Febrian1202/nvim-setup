@@ -1,6 +1,7 @@
 return {
     {
         "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile" }, -- Sangat penting agar file baru langsung kedetect LSP-nya
         dependencies = {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
@@ -21,6 +22,30 @@ return {
                 dynamicRegistration = false,
                 lineFoldingOnly = true
             }
+
+            -- Konfigurasi Diagnostic Virtual Text (Error Lens ala Neovim)
+            vim.diagnostic.config({
+                virtual_text = {
+                    prefix = "●", -- Menggunakan titik/bulatan solid di awal teks error
+                    source = "always", -- Selalu tampilkan sumber errornya (misal: eslint, phpstan)
+                    spacing = 4, -- Jarak spasi antara kode dan pesan error
+                },
+                signs = true, -- Tampilkan ikon di kolom kiri
+                underline = true, -- Garis bawahi kode yang bermasalah
+                update_in_insert = true, -- Tetap perbarui error meskipun sedang mengetik
+                severity_sort = true, -- Tampilkan error yang paling parah di urutan teratas
+                float = {
+                    border = "rounded",
+                    source = "always",
+                },
+            })
+
+            -- Mengganti ikon bawaan di samping baris agar lebih estetik
+            local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+            for type, icon in pairs(signs) do
+                local hl = "DiagnosticSign" .. type
+                vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+            end
 
             -- Setup Mason LSP Config
             mason_lspconfig.setup({
@@ -90,7 +115,10 @@ return {
                     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts) -- Go to definition
                     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)       -- Lihat dokumentasi (Hover)
                     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts) -- Code action (perbaikan cepat)
-                    vim.keymap.set('n', '<leader>rr', vim.lsp.buf.references, opts)  -- Lihat referensi
+                    
+                    -- Menggunakan Telescope untuk melihat referensi agar lebih estetik
+                    vim.keymap.set('n', '<leader>rr', require('telescope.builtin').lsp_references, opts) 
+                    
                     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)      -- Rename variabel
                     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)        -- Error sebelumnya
                     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)        -- Error selanjutnya

@@ -1,6 +1,7 @@
 return {
     {
         "hrsh7th/nvim-cmp",
+        event = { "InsertEnter", "CmdlineEnter" }, -- Memicu CMP hanya saat mulai mengetik atau membuka command line
         dependencies = {
             "hrsh7th/cmp-buffer", 
             "hrsh7th/cmp-path",   

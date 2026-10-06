@@ -19,8 +19,8 @@ Berlaku di mode **Normal**:
 | `<leader>e` | **Toggle File Explorer** | Memunculkan atau menyembunyikan panel Neo-Tree di sisi kanan layar. |
 | `<leader>o` | **Focus File Explorer** | Memindahkan kursor/fokus ke panel Neo-Tree secara instan. |
 | `<leader>t` | **Toggle Terminal** | Memunculkan/Menyembunyikan jendela Terminal (`fish`) di sisi layar. |
-| `gh` | **Awal Baris** | Bergerak cepat ke ujung kiri (awal teks) baris saat ini. |
-| `gl` | **Akhir Baris** | Bergerak cepat ke ujung kanan (akhir) baris saat ini. |
+| `gh` | **Awal Baris** | (Normal & Visual) Bergerak cepat ke ujung kiri (awal teks) baris saat ini. |
+| `gl` | **Akhir Baris** | (Normal & Visual) Bergerak cepat ke ujung kanan (akhir) baris saat ini. |
 | `<leader>\|` | **Split Vertikal** | Membelah layar menjadi dua bagian kiri dan kanan (seperti garis lurus `\|`). |
 | `<leader>-` | **Split Horizontal** | Membelah layar menjadi dua bagian atas dan bawah (seperti garis strip `-`). |
 | `<C-h>`/`j`/`k`/`l` | **Navigasi Window**| Pindah antar jendela (*split*) menggunakan `Ctrl + h/j/k/l`. |
@@ -61,6 +61,7 @@ Berlaku di mode **Normal** maupun **Visual** (saat menyeleksi baris):
 | :--- | :--- | :--- |
 | `gcc` | **Toggle Comment (Line)**| Meng-*comment* (atau *uncomment*) baris kode tempat kursor berada secara otomatis menyesuaikan bahasa (misal `//` di JS, atau `<!-- -->` di HTML). |
 | `gc` | **Toggle Comment (Blok)**| (Visual Mode) Meng-*comment* seluruh blok teks yang sedang diblok/diseleksi. |
+| `<leader>m` | **Multi-Cursor (Visual/Normal)**| Memilih kata di bawah kursor (atau blok yang diseleksi) dan mengaktifkan mode multi-kursor. Tekan `n` (next) untuk memilih kata yang sama selanjutnya, atau `q` (skip). |
 | `J` / `K` | **Pindah Baris (Alt+Up/Down)**| Saat menyeleksi blok kode, gunakan `Shift+j` atau `Shift+k` untuk memindahkan seluruh blok kode ke bawah/atas (seperti fitur Alt+Up/Down di VSCode). Kode otomatis dirapikan. |
 | `<leader>p` | **Paste Pintar** | Mem-paste teks di atas teks yang diblok *tanpa* teks yang tertimpa tersebut masuk ke *clipboard*. |
 | `<leader>y` | **Copy System** | Mengcopy (*yank*) teks yang diblok langsung ke *Clipboard* sistem (OS), sehingga bisa di-paste di aplikasi luar. |
@@ -86,16 +87,18 @@ Harpoon digunakan untuk "memaku" file-file penting yang sedang Anda kerjakan aga
 
 ---
 
-## 🔍 2. Pencarian (Telescope)
+## 🔍 2. Pencarian & File (Telescope / File System)
 
 Berlaku di mode **Normal**:
 
 | Tombol Pintas | Aksi | Keterangan |
 | :--- | :--- | :--- |
 | `<leader>ff` | **Find Files** | Mencari nama file di seluruh direktori proyek Anda. |
-| `<C-p>` | **Git Files** | Mencari file yang sedang dilacak oleh Git (lebih cepat dari `ff`). |
-| `<leader>fg` | **Live Grep** | Mencari kata/teks spesifik di dalam isi seluruh file di proyek. |
+| `<leader>fp` | **Find Project (Git)**| Mencari file yang sedang dilacak oleh Git (lebih cepat dan bersih). |
+| `<leader>fg` | **Find Grep (Teks)**| Mencari kata/teks spesifik di dalam isi seluruh file di proyek. |
 | `<leader>fs` | **Grep String (Prompt)**| Membuka kotak input untuk mencari kata/teks spesifik. |
+| `<leader>fn` | **File New** | Membuat file baru (dan foldernya sekaligus jika ditulis) melalui *floating window input*. |
+| `<leader>fr` | **File Rename** | Mengubah nama file (*rename*) yang sedang aktif/terbuka saat ini. |
 
 ---
 
@@ -127,6 +130,8 @@ Hanya aktif di mode **Normal** saat Anda berada di dalam file kode (seperti PHP,
 | `[d` | **Previous Diagnostic** | Melompat ke error atau peringatan (garis merah/kuning) sebelumnya. |
 | `]d` | **Next Diagnostic** | Melompat ke error atau peringatan selanjutnya. |
 | `<leader>cm` | **Buka Mason** | Membuka antarmuka Mason (Package Manager) untuk menginstal atau memperbarui LSP/Linter/Formatter. |
+| `<leader>xx` | **Project Diagnostics**| Membuka panel *Trouble* di bawah layar yang menampilkan semua error/peringatan di *seluruh proyek* Anda. |
+| `<leader>xX` | **Buffer Diagnostics** | Membuka panel *Trouble* khusus untuk error/peringatan di file (*buffer*) yang sedang Anda buka saat ini saja. |
 
 ---
 

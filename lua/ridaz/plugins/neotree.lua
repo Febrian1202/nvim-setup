@@ -2,6 +2,7 @@ return {
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v3.x",
+        lazy = false, -- JANGAN lazy-load neo-tree, karena dia yang mengurus hijcack netrw saat pertama buka file/folder
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-web-devicons", -- menambahkan icon yang cantik

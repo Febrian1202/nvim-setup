@@ -4,9 +4,9 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- Keluar dari mode Insert dengan cepat menggunakan 'jk'
 vim.keymap.set("i", "jk", "<ESC>", { desc = "Keluar dari Insert mode" })
 
--- Bergerak ke ujung baris di mode Normal
-vim.keymap.set("n", "gh", "^", { desc = "Ke ujung kiri (awal teks) baris" })
-vim.keymap.set("n", "gl", "$", { desc = "Ke ujung kanan (akhir) baris" })
+-- Bergerak ke ujung baris di mode Normal dan Visual
+vim.keymap.set({"n", "v"}, "gh", "^", { desc = "Ke ujung kiri (awal teks) baris" })
+vim.keymap.set({"n", "v"}, "gl", "$", { desc = "Ke ujung kanan (akhir) baris" })
 
 -- Memindahkan baris kode (blok) ke atas/bawah di mode Visual
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Pindah baris ke bawah" })
@@ -43,6 +43,62 @@ vim.keymap.set("n", "<leader>wo", "<C-w>o", { desc = "Tutup semua window lain" }
 
 -- Keluar dari Neovim (Quit All)
 vim.keymap.set("n", "<leader>qq", ":qa<CR>", { desc = "Keluar dari Neovim (Quit All)" })
+
+-- =====================================================================
+-- FILE MANAGEMENT (BUAT & RENAME)
+-- =====================================================================
+-- Membuat file baru (dengan input floating window)
+vim.keymap.set("n", "<leader>fn", function()
+    -- Ambil path root project (biasanya folder tempat nvim dijalankan)
+    local root_path = vim.fn.getcwd() .. "/"
+    
+    -- Minta user memasukkan nama/path file
+    vim.ui.input({ prompt = "Buat File Baru: ", default = root_path }, function(input)
+        if input and input ~= "" and input ~= root_path then
+            -- Buat direktori parent jika belum ada (misal inputnya: src/components/Button.jsx)
+            local dir = vim.fn.fnamemodify(input, ":h")
+            if vim.fn.isdirectory(dir) == 0 then
+                vim.fn.mkdir(dir, "p")
+            end
+            
+            -- Buka (dan buat) file tersebut
+            vim.cmd("edit " .. vim.fn.fnameescape(input))
+            print("File dibuat: " .. input)
+        end
+    end)
+end, { desc = "Buat File Baru" })
+
+-- Rename (Mengubah nama file di buffer saat ini)
+vim.keymap.set("n", "<leader>fr", function()
+    local current_file = vim.fn.expand("%:p") -- Ambil full path file saat ini
+    
+    if current_file == "" then
+        print("Tidak ada file aktif untuk di-rename!")
+        return
+    end
+
+    -- Minta nama baru
+    vim.ui.input({ prompt = "Rename File Menjadi: ", default = current_file }, function(new_file)
+        if new_file and new_file ~= "" and new_file ~= current_file then
+            -- Buat folder parent jika perlu
+            local dir = vim.fn.fnamemodify(new_file, ":h")
+            if vim.fn.isdirectory(dir) == 0 then
+                vim.fn.mkdir(dir, "p")
+            end
+            
+            -- Rename file di sistem (OS)
+            local success, err = os.rename(current_file, new_file)
+            if success then
+                -- Hapus buffer lama dan buka file dengan nama baru
+                vim.cmd("bdelete! " .. vim.fn.fnameescape(current_file))
+                vim.cmd("edit " .. vim.fn.fnameescape(new_file))
+                print("Berhasil di-rename menjadi: " .. vim.fn.fnamemodify(new_file, ":t"))
+            else
+                print("Gagal me-rename file: " .. (err or "Unknown error"))
+            end
+        end
+    end)
+end, { desc = "Rename File Saat Ini" })
 
 -- =====================================================================
 -- CHEATSHEET FLOATING WINDOW
