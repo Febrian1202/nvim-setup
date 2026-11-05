@@ -61,6 +61,7 @@ return {
                     "html",       
                     "cssls",      
                     "emmet_ls",
+                    "sqls",
                 },
                 automatic_installation = true,
                 handlers = {
@@ -103,6 +104,107 @@ return {
                             end,
                         })
                     end,
+
+                    -- Handler khusus untuk Rust (Inlay hints lengkap)
+                    ["rust_analyzer"] = function()
+                        lspconfig.rust_analyzer.setup({
+                            capabilities = capabilities,
+                            settings = {
+                                ["rust-analyzer"] = {
+                                    inlayHints = {
+                                        bindingModeHints = { enable = false },
+                                        chainingHints = { enable = true },
+                                        closingBraceHints = { enable = true, minLines = 25 },
+                                        closureReturnTypeHints = { enable = "never" },
+                                        lifetimeElisionHints = { enable = "never", useParameterNames = false },
+                                        parameterHints = { enable = true },
+                                        reborrowHints = { enable = "never" },
+                                        typeHints = {
+                                            enable = true,
+                                            hideClosureInitialization = false,
+                                            hideNamedConstructor = false,
+                                        },
+                                    },
+                                },
+                            },
+                        })
+                    end,
+
+                    -- Handler khusus untuk TypeScript / JavaScript
+                    ["ts_ls"] = function()
+                        lspconfig.ts_ls.setup({
+                            capabilities = capabilities,
+                            settings = {
+                                typescript = {
+                                    inlayHints = {
+                                        includeInlayParameterNameHints = "all",
+                                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                                        includeInlayFunctionParameterTypeHints = true,
+                                        includeInlayVariableTypeHints = true,
+                                        includeInlayPropertyDeclarationTypeHints = true,
+                                        includeInlayFunctionLikeReturnTypeHints = true,
+                                        includeInlayEnumMemberValueHints = true,
+                                    },
+                                },
+                                javascript = {
+                                    inlayHints = {
+                                        includeInlayParameterNameHints = "all",
+                                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                                        includeInlayFunctionParameterTypeHints = true,
+                                        includeInlayVariableTypeHints = true,
+                                        includeInlayPropertyDeclarationTypeHints = true,
+                                        includeInlayFunctionLikeReturnTypeHints = true,
+                                        includeInlayEnumMemberValueHints = true,
+                                    },
+                                },
+                            },
+                        })
+                    end,
+
+                    -- Handler khusus untuk Go
+                    ["gopls"] = function()
+                        lspconfig.gopls.setup({
+                            capabilities = capabilities,
+                            settings = {
+                                gopls = {
+                                    hints = {
+                                        rangeVariableTypes = true,
+                                        parameterNames = true,
+                                        constantValues = true,
+                                        assignVariableTypes = true,
+                                        compositeLiteralFields = true,
+                                        compositeLiteralTypes = true,
+                                        functionTypeParameters = true,
+                                    },
+                                },
+                            },
+                        })
+                    end,
+
+                    -- Handler khusus untuk SQL / PostgreSQL (sqls)
+                    ["sqls"] = function()
+                        lspconfig.sqls.setup({
+                            capabilities = capabilities,
+                            root_dir = require("lspconfig.util").root_pattern(".sqls.yml", ".sqls.yaml", "config.yml", ".git"),
+                            -- Nonaktifkan formatting dari sqls karena kita pakai sql-formatter lewat conform
+                            on_attach = function(client, bufnr)
+                                client.server_capabilities.documentFormattingProvider = false
+                                client.server_capabilities.documentRangeFormattingProvider = false
+                            end,
+                            -- Deteksi otomatis jika ada file .sqls.yml / .sqls.yaml di root project
+                            on_new_config = function(new_config, new_root_dir)
+                                if new_root_dir then
+                                    for _, name in ipairs({ ".sqls.yml", ".sqls.yaml", "config.yml" }) do
+                                        local project_config = new_root_dir .. "/" .. name
+                                        if vim.fn.filereadable(project_config) == 1 then
+                                            new_config.cmd = { "sqls", "-config", project_config }
+                                            break
+                                        end
+                                    end
+                                end
+                            end,
+                        })
+                    end,
                 }
             })
 
@@ -122,6 +224,19 @@ return {
                     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)      -- Rename variabel
                     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)        -- Error sebelumnya
                     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)        -- Error selanjutnya
+
+                    -- Inlay Hints: Otomatis aktif jika didukung oleh LSP server
+                    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+                    if client and (client.server_capabilities.inlayHintProvider or (client.supports_method and client:supports_method("textDocument/inlayHint"))) then
+                        vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+                    end
+
+                    -- Toggle Inlay Hints dengan shortcut <leader>th
+                    vim.keymap.set('n', '<leader>th', function()
+                        local is_enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = ev.buf })
+                        vim.lsp.inlay_hint.enable(not is_enabled, { bufnr = ev.buf })
+                        print("Inlay hints " .. (not is_enabled and "diaktifkan" or "dinonaktifkan"))
+                    end, vim.tbl_extend("force", opts, { desc = "Toggle Inlay Hints" }))
                 end,
             })
         end

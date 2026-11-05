@@ -25,6 +25,9 @@ return {
             vim.api.nvim_set_hl(0, "BufferLineSeparator", { bg = "none" })
             vim.api.nvim_set_hl(0, "BufferLineSeparatorSelected", { bg = "none" })
             vim.api.nvim_set_hl(0, "BufferLineSeparatorVisible", { bg = "none" })
+            
+            -- Highlight untuk LSP Inlay Hints agar rapi, estetik dan nyaman dibaca
+            vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#676b73", bg = "#1e2528", italic = true })
         end
     }
 }

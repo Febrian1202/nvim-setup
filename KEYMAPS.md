@@ -17,7 +17,7 @@ Berlaku di mode **Normal**:
 | :--- | :--- | :--- |
 | `<leader>pv` | Buka Explorer Bawaan (Netrw) | Menjalankan perintah `:Ex` (opsional, bawaan lama). |
 | `<leader>e` | **Toggle File Explorer** | Memunculkan atau menyembunyikan panel Neo-Tree di sisi kanan layar. |
-| `<leader>o` | **Focus File Explorer** | Memindahkan kursor/fokus ke panel Neo-Tree secara instan. |
+| `<leader>o` | **Focus File Explorer** | Langsung loncat ke panel Neo-Tree tanpa buka-tutup (membuka dan loncat jika sedang tertutup). |
 | `<leader>t` | **Toggle Terminal** | Memunculkan/Menyembunyikan jendela Terminal (`fish`) di sisi layar. |
 | `gh` | **Awal Baris** | (Normal & Visual) Bergerak cepat ke ujung kiri (awal teks) baris saat ini. |
 | `gl` | **Akhir Baris** | (Normal & Visual) Bergerak cepat ke ujung kanan (akhir) baris saat ini. |
@@ -110,7 +110,7 @@ Berlaku di mode **Insert** (saat menu popup saran/autocomplete muncul) dan **Com
 | :--- | :--- | :--- |
 | `<C-n>` | **Next Item** | Turun ke saran berikutnya (bawah). |
 | `<C-p>` | **Previous Item** | Naik ke saran sebelumnya (atas). |
-| `<C-y>` | **Confirm / Expand** | Memilih saran atau membentangkan (*expand*) sebuah *snippet* (misal snippet HTML/PHP). |
+| `<CR>` (Enter) | **Confirm / Expand** | Memilih saran atau membentangkan (*expand*) sebuah *snippet* (misal snippet HTML/PHP). |
 | `<C-Space>` | **Trigger Menu** | Memaksa menu autocomplete muncul secara manual jika sedang tersembunyi. |
 | `jk` (atau `ESC`) | **Keluar Insert/Terminal Mode** | Mengetik `jk` dengan cepat atau menekan ESC untuk kembali ke mode Normal (berlaku saat mengetik kode atau saat berada di dalam terminal). |
 
@@ -127,6 +127,7 @@ Hanya aktif di mode **Normal** saat Anda berada di dalam file kode (seperti PHP,
 | `<leader>ca` | **Code Action** | Menampilkan saran solusi dari LSP (contoh: otomatis import class, fix error syntax). |
 | `<leader>rr` | **References** | Menampilkan semua tempat/file di mana fungsi/variabel ini digunakan. |
 | `<leader>rn` | **Rename** | Mengganti nama fungsi/variabel, dan akan otomatis diubah di seluruh file yang memanggilnya. |
+| `<leader>th` | **Toggle Inlay Hints** | Menyalakan / mematikan tampilan tipe data & parameter otomatis (Inlay Hints). |
 | `[d` | **Previous Diagnostic** | Melompat ke error atau peringatan (garis merah/kuning) sebelumnya. |
 | `]d` | **Next Diagnostic** | Melompat ke error atau peringatan selanjutnya. |
 | `<leader>cm` | **Buka Mason** | Membuka antarmuka Mason (Package Manager) untuk menginstal atau memperbarui LSP/Linter/Formatter. |

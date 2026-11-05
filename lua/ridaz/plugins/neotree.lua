@@ -46,11 +46,11 @@ return {
                 }
             })
 
-            -- Keybind untuk memunculkan/menyembunyikan neo-tree
+            -- Keybind untuk memunculkan/menyembunyikan neo-tree (Toggle)
             vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = "Toggle File Explorer", silent = true })
 
-            -- Keybind untuk langsung fokus ke neo-tree
-            vim.keymap.set('n', '<leader>o', ':Neotree focus<CR>', { desc = "Focus File Explorer", silent = true })
+            -- Keybind untuk langsung fokus/loncat ke neo-tree (atau buka dan loncat jika sedang tertutup)
+            vim.keymap.set('n', '<leader>o', ':Neotree focus<CR>', { desc = "Focus File Explorer (Buka & Loncat)", silent = true })
         end
     }
 }

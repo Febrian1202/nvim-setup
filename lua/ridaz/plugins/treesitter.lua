@@ -27,6 +27,7 @@ return {
 					"tsx",
 					"php_only",
 					"json",
+					"sql",
 				},
 				sync_install = false,
 				auto_install = true,

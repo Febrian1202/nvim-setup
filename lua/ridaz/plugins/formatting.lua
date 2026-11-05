@@ -23,6 +23,7 @@ return {
                     rust = { "rustfmt" },
                     go = { "gofmt" },
                     python = { "isort", "black" }, -- Python sering pakai kombinasi ini
+                    sql = { "sql_formatter" },
                 },
                 
                 -- Mengaktifkan auto-format setiap kali file disave (:w)
