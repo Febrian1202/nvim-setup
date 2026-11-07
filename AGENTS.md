@@ -19,8 +19,16 @@
 ## UI & Theme Quirks
 - The active theme is **Everblush** with a forced transparent background.
 - UI overrides (e.g., forcing `bg = "none"` for `Normal`, `NormalFloat`, `TabLineFill`, `NeoTreeWinSeparator`) are centralized in `lua/ridaz/plugins/theme.lua`. Avoid setting solid background colors in individual plugin configs.
-- `which-key.nvim` uses the `v3` specification (`opts.spec` array), not the deprecated `.register()` method.
+- `which-key.nvim` is installed at `lua/ridaz/plugins/whichkey.lua` and uses the `v3` specification (`opts.spec` array), not the deprecated `.register()` method.
+  - Only declare explicit `spec` groups for prefixes that have no leaf mapping (`<leader>f/x/b/r`). Everything else is auto-discovered from the `desc` field of `vim.keymap.set` — keep those mappings `desc`-complete.
+  - A prefix that is also a leaf must NOT be redefined as a group (e.g., `<leader>h` = Harpoon menu vs gitsigns hunks, `<leader>t` = terminal toggle vs `th`).
+- `noice.nvim` (`lua/ridaz/plugins/noice.lua`) renders the cmdline (`:` and `/`), messages, and notifications as floating windows (`cmdline_popup` view, backed by `nui.nvim` + `nvim-notify`). Its setup is deferred until after `VimEnter` (`vim.schedule`), so it never activates under `--headless` — UI behavior must be verified in a real terminal (see Verification).
+- `mywpm.lua` globally monkeypatches `vim.api.nvim_buf_set_extmark` to re-style its virtual text (`MyWpmText`);
+  keep this in mind when debugging extmark/highlight issues.
 
 ## Verification
 - Validate configurations by starting Neovim and running `:checkhealth`.
+- Quick load check: `nvim --headless "+qa" 2>&1` must exit silently (no Lua errors).
+- UI-level plugins (which-key, noice, floating popups) cannot be exercised under `--headless` — verify end-to-end with a tmux pty:
+  `tmux new-session -d -s test 'nvim'`, then `tmux send-keys -t test <keys>` and read the screen with `tmux capture-pane -p -t test`.
 - Lua syntax validation: Ensure no trailing/missing brackets when modifying plugin tables.
