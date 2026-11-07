@@ -28,6 +28,9 @@ return {
             
             -- Highlight untuk LSP Inlay Hints agar rapi, estetik dan nyaman dibaca
             vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#676b73", bg = "#1e2528", italic = true })
+
+            -- Highlight untuk MyWPM agar teks redup, samar, dan transparan
+            vim.api.nvim_set_hl(0, "MyWpmText", { fg = "#4e5759", bg = "none", italic = true })
         end
     }
 }
