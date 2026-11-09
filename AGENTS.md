@@ -23,6 +23,7 @@
   - Only declare explicit `spec` groups for prefixes that have no leaf mapping (`<leader>f/x/b/r`). Everything else is auto-discovered from the `desc` field of `vim.keymap.set` — keep those mappings `desc`-complete.
   - A prefix that is also a leaf must NOT be redefined as a group (e.g., `<leader>h` = Harpoon menu vs gitsigns hunks, `<leader>t` = terminal toggle vs `th`).
 - `noice.nvim` (`lua/ridaz/plugins/noice.lua`) renders the cmdline (`:` and `/`), messages, and notifications as floating windows (`cmdline_popup` view, backed by `nui.nvim` + `nvim-notify`). Its setup is deferred until after `VimEnter` (`vim.schedule`), so it never activates under `--headless` — UI behavior must be verified in a real terminal (see Verification).
+- `nvim-notify` is configured at `lua/ridaz/plugins/notify.lua` (compact layout, bottom-left custom stages above statusline, `background_colour = "#000000"` to prevent transparent-theme warnings). Its body highlights (`NotifyBackground`, `Notify*Body`) are forced transparent in `theme.lua`.
 - `mywpm.lua` globally monkeypatches `vim.api.nvim_buf_set_extmark` to re-style its virtual text (`MyWpmText`);
   keep this in mind when debugging extmark/highlight issues.
 
