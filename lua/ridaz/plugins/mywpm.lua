@@ -32,9 +32,9 @@ return {
       -- lowest wpm message
       low_msg = "hahaha slowhand 🐌",
 
-      -- show notify and virtual text
+      -- matikan notifikasi pop-up (slowhand / keep it up), cukup virtual text
       show_virtual_text = true,
-      notify = true,
+      notify = false,
       -- interval update time
       update_time = 300,
       -- format sederhana: hanya angka dan wpm, hilang saat diam (0 WPM)
