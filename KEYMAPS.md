@@ -35,7 +35,7 @@ Berlaku di mode **Normal**:
 | `<leader>nh` | **Clear Highlight** | Menghilangkan warna blok (*highlight*) setelah selesai melakukan pencarian teks. |
 | `<leader>w` | **Toggle Wrap** | Menghidupkan atau mematikan fitur bungkus teks (*text wrap*) untuk baris yang kepanjangan. |
 | `s` | **Flash Jump** | Tekan `s` lalu ketik 2 huruf awal dari kata yang ingin dituju di layar, lalu ketik huruf label (A, B, C) yang muncul untuk langsung melompat ke sana. |
-| `S` (Shift + s)| **Flash Treesitter** | Sama seperti di atas, tetapi alih-alih melompat, ia akan langsung memblok seluruh area blok kode di target tersebut. |
+| `S` (Shift + s)| **Flash Treesitter** | (Mode Normal/Operator) Alih-alih melompat, ia akan langsung memilih dan memblok seluruh area blok kode target. (Pada mode Visual, `S` digunakan untuk Surround). |
 
 ---
 
@@ -84,6 +84,38 @@ Harpoon digunakan untuk "memaku" file-file penting yang sedang Anda kerjakan aga
 | :--- | :--- |
 | `l` (huruf L kecil) | Membuka folder atau membuka file. |
 | `h` | Menutup folder. |
+
+---
+
+## 📦 1.7. Surround (Nvim-Surround - Membungkus Kode)
+
+Digunakan untuk membungkus (*surround*), mengubah (*change*), atau menghapus (*delete*) pasangan tanda kurung `()`, kurung kurawal `{}`, kurung siku `[]`, kutip `""` / `''`, maupun tag HTML/XML:
+
+### A. Membungkus Blok Teks (Visual Mode)
+Blok teks terlebih dahulu (`v` untuk karakter atau `V` untuk baris), lalu tekan:
+
+| Tombol Pintas | Aksi | Hasil Contoh |
+| :--- | :--- | :--- |
+| `S"` | Bungkus dengan tanda kutip dua | `teks` $\rightarrow$ `"teks"` |
+| `S'` | Bungkus dengan tanda kutip satu | `teks` $\rightarrow$ `'teks'` |
+| `S)` | Bungkus tanda kurung *(tanpa spasi)* | `teks` $\rightarrow$ `(teks)` |
+| `S(` | Bungkus tanda kurung *(dengan spasi)* | `teks` $\rightarrow$ `( teks )` |
+| `S}` | Bungkus kurung kurawal *(tanpa spasi)* | `teks` $\rightarrow$ `{teks}` |
+| `S{` | Bungkus kurung kurawal *(dengan spasi)* | `teks` $\rightarrow$ `{ teks }` |
+| `S]` / `S[` | Bungkus kurung siku | `teks` $\rightarrow$ `[teks]` atau `[ teks ]` |
+| `S<tag>` | Bungkus dengan tag HTML/XML | Contoh ketik `S<p>` $\rightarrow$ `<p>teks</p>` |
+
+### B. Manipulasi di Mode Normal (Tanpa Harus Blok Dulu)
+
+| Tombol Pintas | Aksi | Keterangan & Contoh |
+| :--- | :--- | :--- |
+| `ysiw"` | **Add Surround Word** | (*You Surround Inner Word*) Membungkus 1 kata saat ini dengan `"`. |
+| `ysiw)` | **Add Surround Word ()** | Membungkus 1 kata dengan kurung `()`. |
+| `ys$"` | **Add Surround to EOL** | Membungkus dari kursor sampai ujung akhir baris dengan `"`. |
+| `cs"'` | **Change Surround** | Mengubah pembungkus dari `"teks"` menjadi `'teks'`. |
+| `cs'(` | **Change to Spaced Parens** | Mengubah `'teks'` menjadi `( teks )`. |
+| `ds"` | **Delete Surround** | Menghapus pembungkus tanda kutip (`"teks"` $\rightarrow$ `teks`). |
+| `ds)` | **Delete Surround ()** | Menghapus pembungkus tanda kurung (`(teks)` $\rightarrow$ `teks`). |
 
 ---
 
