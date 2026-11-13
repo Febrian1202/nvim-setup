@@ -32,7 +32,7 @@ return {
                 },
                 signs = true, -- Tampilkan ikon di kolom kiri
                 underline = true, -- Garis bawahi kode yang bermasalah
-                update_in_insert = true, -- Tetap perbarui error meskipun sedang mengetik
+                update_in_insert = false, -- Jangan update diagnostic saat sedang mengetik agar autocomplete tidak tertutup error virtual text
                 severity_sort = true, -- Tampilkan error yang paling parah di urutan teratas
                 float = {
                     border = "rounded",

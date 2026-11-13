@@ -17,6 +17,34 @@ return {
             require("luasnip.loaders.from_vscode").lazy_load()
             luasnip.filetype_extend("blade", { "html", "php" })
 
+            local kind_icons = {
+                Text = "󰉿",
+                Method = "󰆧",
+                Function = "󰊕",
+                Constructor = "",
+                Field = "󰜢",
+                Variable = "󰀫",
+                Class = "󰠱",
+                Interface = "",
+                Module = "",
+                Property = "󰜢",
+                Unit = "󰑭",
+                Value = "󰎠",
+                Enum = "",
+                Keyword = "󰌋",
+                Snippet = "",
+                Color = "󰏘",
+                File = "󰈙",
+                Reference = "󰈇",
+                Folder = "󰉋",
+                EnumMember = "",
+                Constant = "󰏿",
+                Struct = "󰙅",
+                Event = "",
+                Operator = "󰆕",
+                TypeParameter = "󰅲",
+            }
+
             cmp.setup({
                 snippet = {
                     expand = function(args)
@@ -24,8 +52,37 @@ return {
                     end,
                 },
                 window = {
-                    completion = cmp.config.window.bordered(),
-                    documentation = cmp.config.window.bordered(),
+                    completion = cmp.config.window.bordered({
+                        border = "rounded",
+                        winhighlight = "Normal:Pmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
+                    }),
+                    documentation = cmp.config.window.bordered({
+                        border = "rounded",
+                        winhighlight = "Normal:Pmenu,FloatBorder:CmpDocBorder,CursorLine:PmenuSel,Search:None",
+                    }),
+                },
+                formatting = {
+                    fields = { "abbr", "kind", "menu" },
+                    format = function(entry, vim_item)
+                        -- Batasi panjang abbr agar tidak merusak lebar popup menu
+                        local max_width = 40
+                        if #vim_item.abbr > max_width then
+                            vim_item.abbr = string.sub(vim_item.abbr, 1, max_width - 1) .. "…"
+                        end
+
+                        -- Tambahkan ikon untuk jenis completion
+                        vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind] or "󰅩", vim_item.kind)
+
+                        -- Label sumber suggestion
+                        vim_item.menu = ({
+                            nvim_lsp = "[LSP]",
+                            luasnip  = "[Snippet]",
+                            buffer   = "[Buffer]",
+                            path     = "[Path]",
+                        })[entry.source.name] or ""
+
+                        return vim_item
+                    end,
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-p>'] = cmp.mapping.select_prev_item(), 
